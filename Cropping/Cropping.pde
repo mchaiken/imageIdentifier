@@ -4,15 +4,20 @@ import processing.video.*;
 
 Capture cam;
 
-boolean takingPics, corner1, corner2,adjusting;
+boolean takingPics, corner1, corner2, adjusting, findPainting;
 PImage currentPic;
 int pics;
-int x1,y1,x2,y2;
+int x1, y1, x2, y2;
+PImage img;
+Painting match;
 dragRect d;
 
 void setup() {
   size(640, 480);
-  
+  PFont font= createFont("Georgia", 20);
+  fill(0);
+  textFont(font);
+
   takingPics = true;
 
   String[] cameras = Capture.list();
@@ -20,7 +25,8 @@ void setup() {
   if (cameras == null) {
     println("Failed to retrieve the list of available cameras, will try the default...");
     cam = new Capture(this, 640, 480);
-  } if (cameras.length == 0) {
+  } 
+  if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
   } else {
@@ -37,24 +43,34 @@ void setup() {
 
 void draw() {
   if (takingPics) {
-    if (cam.available() == true) {
+    if (cam.available() == true) {   
       cam.read();
     }
     image(cam, 0, 0);
+    text("Click to take a picture", 200, 30);
   } else if (corner1) {
-    image(currentPic,0,0);
+    image(currentPic, 0, 0);
+    text("Click the top left corner, release and move the mouse to crop", 60, 30);
   } else if (corner2) {
-    image(currentPic,0,0);
+    image(currentPic, 0, 0);
     noFill();
-    rect(x1,y1,mouseX-x1,mouseY-y1);
+    rect(x1, y1, mouseX-x1, mouseY-y1);
   } else if (adjusting) {
-    image(currentPic,0,0);
+    image(currentPic, 0, 0);
+    text("Hold the arrow key corresponding to the side to ajust", 80, 30);
+    text("move the mouse to change position. Press Space when done", 75, 50);
     d.display();
+  } else if (findPainting) {
+    image(match.image, 320, 240);
+    rect(5, 5, 50, 70);
+    text("Title: "+match.title, 10, 20);
+    text("Artist: "+match.artist, 10, 50);
   }
 }
-
 void takePicture() {
   pics++;
+  cam.read();
+  image(cam, 0, 0);
   saveFrame(pics + "-uncropped.png");
   currentPic = loadImage(pics + "-uncropped.png");
 }
@@ -74,18 +90,33 @@ void mouseClicked() {
     y2 = mouseY;
     corner2 = false;
     adjusting = true;
-    d = new dragRect(x1,y1,x2,y2);
+    d = new dragRect(x1, y1, x2, y2);
   }
 }
 
 void keyPressed() {
   if (adjusting && keyCode == 32) {
-    image(currentPic,0,0);
-    PImage cropped = createImage(abs(d.getW()),abs(d.getH()),RGB);
-    cropped = get(d.getX(),d.getY(), d.getW(),d.getH());
+    image(currentPic, 0, 0);
+    PImage cropped = createImage(abs(d.getW()), abs(d.getH()), RGB);
+    cropped = get(d.getX(), d.getY(), d.getW(), d.getH());
     cropped.save(pics + "-cropped.jpg");
     adjusting = false;
-    takingPics = true;
+    findPainting=true;
+    background(255);
+    text("Searching for match...", 200, 300);
+    findPainting();
+  }
+}
+void findPainting() {
+
+  String walters="http://api.thewalters.org/v1/objects?";
+  walters+="classification=painted&pageSize=500";
+  walters+="&apikey=ixtKD8sehL003wsd31zUzJOtIvYG7jvyUXHKEBIrSh96R9fhsC7w9ZGPZ02HabWy";
+  img=loadImage("1-cropped.jpg");
+
+  match = checkTate(img);
+  if (!foundMatch) {
+    match = checkWalters(walters, img);
   }
 }
 
