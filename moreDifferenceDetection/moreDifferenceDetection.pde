@@ -3,12 +3,21 @@ int thresh;
 void setup() {
   thresh = 30;
   
-  img1 = loadImage("night1.png");
-  img2 = loadImage("night2.png");
+  img1 = loadImage("scream1.png");
+  img2 = loadImage("scream2.png");
   img2.resize(img1.width,img1.height);
   size(img1.width,img2.height);
   img1 = edgeDetect(img1);
   img2 = edgeDetect(img2);
+  int one = avg(img1);
+  int two = avg(img2);
+  
+  if (one>two) {
+    img1 = adjust(img1,one-two);
+  } else {
+    img2 = adjust(img2,two-one);
+  }
+
   image(differenceDetect(img1,img2),0,0);
 }
 
@@ -31,6 +40,31 @@ PImage edgeDetect(PImage a) {
   }
   b.updatePixels();
   return b;
+}
+
+int avg (PImage img) {
+  img.loadPixels();
+  int sum = 0;
+  for (int i = 0;i<img.pixels.length;i++) {
+    if (red(img.pixels[i]) != 0) {
+      sum+=red(img.pixels[i]);
+    }
+  }
+  return (sum/img.pixels.length);
+}
+
+PImage adjust(PImage img, int s) {
+  img.loadPixels();
+  for (int i=0;i<img.pixels.length;i++) {
+    if (red(img.pixels[i]) != 0) {
+      try {
+      img.pixels[i] = color(red(img.pixels[i]) - s);
+      } catch(Exception e) {
+      }
+    }
+  }
+  img.updatePixels();
+  return img;
 }
 
 PImage differenceDetect(PImage a, PImage b) {
