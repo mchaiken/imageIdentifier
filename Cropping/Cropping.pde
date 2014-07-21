@@ -13,11 +13,9 @@ int infoY=350;
 PImage img;
 Painting match;
 dragRect d;
-<<<<<<< HEAD
 PFont font2= createFont("Impact", 20);
-=======
 float rotation;
->>>>>>> FETCH_HEAD
+
 
 void setup() {
   size(640, 480);
