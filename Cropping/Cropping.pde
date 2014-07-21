@@ -112,7 +112,10 @@ void keyPressed() {
   } else if (adjusting && keyCode == 83) {
     rotation -= 5;
   } else if (adjusting && keyCode == 32) {
-    image(currentPic, 0, 0);
+    translate(currentPic.width/2,currentPic.height/2);
+    rotate(radians(rotation));
+    translate(-currentPic.width/2,-currentPic.height/2);
+    image(currentPic,0,0);
     PImage cropped = createImage(abs(d.getW()), abs(d.getH()), RGB);
     cropped = get(d.getX(), d.getY(), d.getW(), d.getH());
     cropped.save(pics + "-cropped.jpg");
