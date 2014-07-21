@@ -5,18 +5,7 @@ void setup() {
   
   img1 = loadImage("scream1.png");
   img2 = loadImage("scream2.png");
-  img2.resize(img1.width,img1.height);
-  size(img1.width,img2.height);
-  img1 = edgeDetect(img1);
-  img2 = edgeDetect(img2);
-  int one = avg(img1);
-  int two = avg(img2);
-  
-  if (one>two) {
-    img1 = adjust(img1,one-two);
-  } else {
-    img2 = adjust(img2,two-one);
-  }
+
 
   image(differenceDetect(img1,img2),0,0);
 }

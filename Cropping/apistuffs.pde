@@ -32,7 +32,7 @@ Painting checkWalters(String url, PImage img) {
       temp=loadImage(items.getJSONObject(i).getJSONObject("PrimaryImage").getString("Raw"));
     }
     pred=isSame(temp, img);
-    if (pred<75000 && pred<smallest) {
+    if (pred<50000 && pred<smallest) {
       ret= items.getJSONObject(i);
       smallest=pred;
       foundMatch=true;
@@ -59,10 +59,10 @@ void addFiles(File f) {
 
 Painting checkTate(PImage img) {
   println(System.getProperty("user.dir"));
-  File parent= new File("./Desktop/imageIdentifier/Cropping/art/artworks");
+  File parent= new File("./Desktop/imageIdentifier/art/artworks");
   println(parent.exists());
   addFiles(parent);
-  int pred=75000;
+  int pred=36096;
   JSONObject smallest=loadJSONObject(tateFiles.get(0));
   for (File x : tateFiles) {
     JSONObject art=loadJSONObject(x);
@@ -71,7 +71,7 @@ Painting checkTate(PImage img) {
       int redCount=isSame(painting, img);
       println("going");
       if (redCount<pred) {
-       
+         smallest= art;
         foundMatch=true;
          break;
       }
