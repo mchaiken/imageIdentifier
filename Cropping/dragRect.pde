@@ -61,6 +61,7 @@ class dragRect {
    left.setY(y+(h/2)-3);
    right.setY(y+(h/2)-3);
    
+   size(640,480);
    rect(x,y,w,h);
    top.display();
    bottom.display();

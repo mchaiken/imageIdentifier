@@ -11,12 +11,14 @@ int x1, y1, x2, y2;
 PImage img;
 Painting match;
 dragRect d;
+float rotation;
 
 void setup() {
   size(640, 480);
   PFont font= createFont("Georgia", 20);
   fill(0);
   textFont(font);
+  rotation = 0;
 
   takingPics = true;
 
@@ -56,10 +58,20 @@ void draw() {
     noFill();
     rect(x1, y1, mouseX-x1, mouseY-y1);
   } else if (adjusting) {
-    image(currentPic, 0, 0);
+    background(255);
+    translate(currentPic.width/2,currentPic.height/2);
+    rotate(radians(rotation));
+    translate(-currentPic.width/2,-currentPic.height/2);
+    image(currentPic,0,0);
+    
+    translate(currentPic.width/2,currentPic.height/2);
+    rotate(radians(-rotation));
+    translate(-currentPic.width/2,-currentPic.height/2);    
+    d.display();
     text("Hold the arrow key corresponding to the side to ajust", 80, 30);
     text("move the mouse to change position. Press Space when done", 75, 50);
-    d.display();
+    text("Press 'a' to rotate image clockwise, 's' for counterclockwise",80,70);
+
   } else if (findPainting) {
     image(match.image, 320, 240);
     rect(5, 5, 50, 70);
@@ -95,7 +107,11 @@ void mouseClicked() {
 }
 
 void keyPressed() {
-  if (adjusting && keyCode == 32) {
+  if (adjusting && keyCode == 65) {
+    rotation += 5;
+  } else if (adjusting && keyCode == 83) {
+    rotation -= 5;
+  } else if (adjusting && keyCode == 32) {
     image(currentPic, 0, 0);
     PImage cropped = createImage(abs(d.getW()), abs(d.getH()), RGB);
     cropped = get(d.getX(), d.getY(), d.getW(), d.getH());
