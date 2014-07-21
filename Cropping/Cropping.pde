@@ -8,9 +8,12 @@ boolean takingPics, corner1, corner2, adjusting, findPainting;
 PImage currentPic;
 int pics;
 int x1, y1, x2, y2;
+int infoX=250;
+int infoY=350;
 PImage img;
 Painting match;
 dragRect d;
+PFont font2= createFont("Impact", 20);
 
 void setup() {
   size(640, 480);
@@ -61,10 +64,13 @@ void draw() {
     text("move the mouse to change position. Press Space when done", 75, 50);
     d.display();
   } else if (findPainting) {
-    image(match.image, 320, 240);
-    rect(5, 5, 50, 70);
-    text("Title: "+match.title, 10, 20);
-    text("Artist: "+match.artist, 10, 50);
+
+    imageMode(CENTER);
+    match.image.resize((match.image.height/480)*640,480);
+    image(match.image, 320,240);
+        size(640,480);
+        match.info();
+    
   }
 }
 void takePicture() {
@@ -92,6 +98,10 @@ void mouseClicked() {
     adjusting = true;
     d = new dragRect(x1, y1, x2, y2);
   }
+  else if(findPainting){
+    if (match.overDescription())
+      match.displayDescription=!match.displayDescription;
+  }
 }
 
 void keyPressed() {
@@ -101,10 +111,11 @@ void keyPressed() {
     cropped = get(d.getX(), d.getY(), d.getW(), d.getH());
     cropped.save(pics + "-cropped.jpg");
     adjusting = false;
+        findPainting();
     findPainting=true;
-    background(255);
-    text("Searching for match...", 200, 300);
-    findPainting();
+    //background(255);
+    //text("Searching for match...", 200, 300);
+
   }
 }
 void findPainting() {
@@ -117,6 +128,16 @@ void findPainting() {
   match = checkTate(img);
   if (!foundMatch) {
     match = checkWalters(walters, img);
+  }
+}
+void mouseDragged(){
+  if (findPainting){
+    infoX=mouseX+5;
+        infoY=mouseY+5;
+    if (infoY < 20+(30*match.titleLength)){
+        infoY=20+(30*match.titleLength);
+    }
+    match.resizeText(infoX-5);
   }
 }
 
