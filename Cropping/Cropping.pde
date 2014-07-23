@@ -111,10 +111,12 @@ void mouseClicked() {
     adjusting = true;
     d = new dragRect(x1, y1, x2, y2);
   }
+  /*
   else if(findPainting){
     if (match.overDescription())
       match.displayDescription=!match.displayDescription;
   }
+  */
 }
 
 void keyPressed() {

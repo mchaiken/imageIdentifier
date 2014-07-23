@@ -33,6 +33,7 @@ class Painting {
     formattedArtist=a;
     //description= d;
     int wdth=0;
+    
     for (int c=0; c<d.length (); c++) {
       wdth+=textWidth(d.substring(c, c+1));
       if (wdth > 640) {
@@ -43,6 +44,7 @@ class Painting {
       description+=d.substring(c, c+1);
     }
     println(description);
+    
     image=i;
     museum=m;
   }
@@ -86,8 +88,8 @@ class Painting {
     }
   }
   void description(){
+    overDescription();
     if (displayDescription){
-      println(descriptionLength);
       fill(225);
       rect(0,480-(descriptionLength*40),640,40*descriptionLength);
       fill(0);
@@ -95,14 +97,21 @@ class Painting {
     }
     else{
       fill(255);
-      rect(620,225,20,30);
+      rect(545,445,82,30);
       fill(0);
-      text("Description",620,225);
-      
-  }    
+      text("More Info",545+3,445+23);
+    }
   }
-  boolean overDescription(){
-    return (mouseX >=620) && (mouseX <= 640) && (mouseY <=225) && (mouseY >=255);
+  
+  void overDescription(){
+    if (!displayDescription &&
+        (mouseX>=545) && (mouseX<=627) &&
+        (mouseY>=445) && (mouseY<=475)) {
+          displayDescription = true;
+        }
+    if (displayDescription && !(mouseY>=445)) {
+      displayDescription = false;
+    }
   }
 }
 
