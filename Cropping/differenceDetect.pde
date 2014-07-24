@@ -73,6 +73,19 @@
  differenceDetect(a,b);
  return reds;
  }
+ 
+ boolean sizeCompare(PImage a, PImage b) {
+  if ((a.height>a.width && b.height>b.width)
+    ||(a.width>a.height && b.width>b.height)) {
+      float ratioA = (a.width*1.0)/(a.height*1.0);
+      float ratioB = (b.width*1.0)/(b.height*1.0);
+      println(abs(ratioA-ratioB));
+      if (abs(ratioA-ratioB)<0.5) {
+        return true;
+      }
+    }
+    return false;
+}
 
 
 void setUp(PImage img1, PImage img2) {

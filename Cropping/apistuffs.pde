@@ -68,12 +68,14 @@ Painting checkTate(PImage img) {
     JSONObject art=loadJSONObject(x);
     try {
       PImage painting = loadImage(art.getString("thumbnailUrl"));
-      int redCount=isSame(painting, img);
-      println("going");
-      if (redCount<pred) {
-         smallest= art;
-        foundMatch=true;
-         break;
+      if (sizeCompare(painting,img)) {
+        int redCount=isSame(painting, img);
+        println("going");
+        if (redCount<pred) {
+           smallest= art;
+          foundMatch=true;
+           break;
+        }
       }
     }
     catch(Exception e) {

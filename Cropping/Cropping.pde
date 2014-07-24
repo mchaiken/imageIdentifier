@@ -9,7 +9,7 @@ PImage currentPic;
 int pics;
 int x1, y1, x2, y2;
 int infoX=250;
-int infoY=350;
+int infoY=230;
 PImage img;
 Painting match;
 dragRect d;
@@ -82,7 +82,7 @@ void draw() {
     match.image.resize((match.image.height/480)*640,480);
     image(match.image, 320,240);
         size(640,480);
-        match.info();
+        match.info(infoX, infoY);
     
   }
 }
@@ -99,6 +99,7 @@ void mouseClicked() {
     takePicture();
     takingPics = false;
     corner1 = true;
+    cam.stop();
   } else if (corner1) {
     x1 = mouseX;
     y1 = mouseY;
@@ -111,12 +112,6 @@ void mouseClicked() {
     adjusting = true;
     d = new dragRect(x1, y1, x2, y2);
   }
-  /*
-  else if(findPainting){
-    if (match.overDescription())
-      match.displayDescription=!match.displayDescription;
-  }
-  */
 }
 
 void keyPressed() {
@@ -133,15 +128,15 @@ void keyPressed() {
     cropped = get(d.getX(), d.getY(), d.getW(), d.getH());
     cropped.save(pics + "-cropped.jpg");
     adjusting = false;
-        findPainting();
+    findPainting();
     findPainting=true;
-    //background(255);
-    //text("Searching for match...", 200, 300);
+
 
   }
 }
 void findPainting() {
-
+  background(255);
+  text("Searching for match...", 200, 300);
   String walters="http://api.thewalters.org/v1/objects?";
   walters+="classification=painted&pageSize=500";
   walters+="&apikey=ixtKD8sehL003wsd31zUzJOtIvYG7jvyUXHKEBIrSh96R9fhsC7w9ZGPZ02HabWy";
@@ -151,11 +146,13 @@ void findPainting() {
   if (!foundMatch) {
     match = checkWalters(walters, img);
   }
+  
 }
+
 void mouseDragged(){
   if (findPainting){
     infoX=mouseX+5;
-        infoY=mouseY+5;
+    infoY=mouseY+5;
     if (infoY < 20+(30*match.titleLength)){
         infoY=20+(30*match.titleLength);
     }

@@ -1,3 +1,4 @@
+
 class Painting {
   String title="";
   String formattedTitle="";
@@ -22,16 +23,17 @@ class Painting {
 
   Painting(String t, String a, String d, PImage i, String m) {
     int x=0;
+    /*
     for (x=0; x< (t.length ()-25); x+=25) {
       println(t.substring(x, x+25)+"\n");
       formattedTitle+=t.substring(x, x+25)+"\n";
       titleLength++;
     }
     formattedTitle+=t.substring(x, t.length());
+    */
     title=t;
     artist=a;
-    formattedArtist=a;
-    //description= d;
+    //formattedArtist=a;
     int wdth=0;
     
     for (int c=0; c<d.length (); c++) {
@@ -43,7 +45,10 @@ class Painting {
       }
       description+=d.substring(c, c+1);
     }
+    println(title);
+    println(artist);
     println(description);
+   
     
     image=i;
     museum=m;
@@ -51,13 +56,16 @@ class Painting {
   
   
   
-  void info() {
+  void info(int infoX, int infoY) {
     textFont(font2);
     fill(225,85);
     rect(5, 5, infoX, infoY);
     fill(0);
+    text("Title: " + title + "\nArtist: " + artist, 10, 10, infoX,infoY);
+    /*
     text("Title:\n "+formattedTitle, 10, 25);
     text("Artist: "+formattedArtist, 10, 20+(30*titleLength));
+    */
     description();
   }
   
