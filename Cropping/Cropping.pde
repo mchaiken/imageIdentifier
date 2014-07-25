@@ -11,9 +11,10 @@ dragRect d;
 float rotation;
 
 Painting match;
-int infoX=250;
-int infoY=230;
+int infoX;
+int infoY;
 
+PFont font= createFont("Georgia", 20);
 PFont font2= createFont("Impact", 20);
 
 
@@ -21,7 +22,6 @@ PFont font2= createFont("Impact", 20);
 void setup() {
   size(640, 480);
   frame.setResizable(true);
-  PFont font= createFont("Georgia", 20);
   fill(0);
   textFont(font);
   rotation = 0;
@@ -34,7 +34,6 @@ void setup() {
     println("Failed to retrieve the list of available cameras, will try the default...");
     cam = new Capture(this, 640, 480);
   } 
-  
   if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
@@ -43,9 +42,7 @@ void setup() {
     for (int i = 0; i < cameras.length; i++) {
       println(cameras[i]);
     }
-
     cam = new Capture(this, cameras[0]);
-
     cam.start();
   }
 }
@@ -78,13 +75,12 @@ void draw() {
     d.display();
    
     String s = "Hold the arrow key corresponding to the side to ajust. Move the mouse to change its position. Press 'a' to rotate image clockwise, 's' for counterclockwise. Press space when done.";
-    text(s, 30, 30, 600,400);
-    //text("Move the mouse to change its position. Press 'a' to rotate image clockwise,", 75, 50);
-    //text(" 's' for counterclockwise. Press space when done.",80,70);
+    text(s, 30, 10, 600,400);
 
   } else if (findPainting) {
     image(match.image,0,0);
     match.info(infoX,infoY);
+    match.description();
     /*
     imageMode(CENTER);
     match.image.resize((match.image.height/480)*640,480);
@@ -173,7 +169,6 @@ void mouseDragged(){
     if (infoY < 20+(30*match.titleLength)){
         infoY=20+(30*match.titleLength);
     }
-    //match.resizeText(infoX-5);
   }
 }
 

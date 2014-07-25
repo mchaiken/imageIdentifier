@@ -22,20 +22,12 @@ class Painting {
 
 
   Painting(String t, String a, String d, PImage i, String m) {
-    int x=0;
-    /*
-    for (x=0; x< (t.length ()-25); x+=25) {
-      println(t.substring(x, x+25)+"\n");
-      formattedTitle+=t.substring(x, x+25)+"\n";
-      titleLength++;
-    }
-    formattedTitle+=t.substring(x, t.length());
-    */
     title=t;
     artist=a;
-    //formattedArtist=a;
-    int wdth=0;
+    image=i;
+    museum=m;
     
+    int wdth=0;
     for (int c=0; c<d.length (); c++) {
       wdth+=textWidth(d.substring(c, c+1));
       if (wdth > 640) {
@@ -45,13 +37,11 @@ class Painting {
       }
       description+=d.substring(c, c+1);
     }
+    
     println(title);
     println(artist);
     println(description);
-   
     
-    image=i;
-    museum=m;
   }
   
   
@@ -62,39 +52,10 @@ class Painting {
     rect(5, 5, infoX+5, infoY+5);
     fill(0);
     text("Title: " + title + "\nArtist: " + artist, 10, 10, infoX,infoY);
-    /*
-    text("Title:\n "+formattedTitle, 10, 25);
-    text("Artist: "+formattedArtist, 10, 20+(30*titleLength));
-    */
-    description();
+
   }
   
   
-  void resizeText(int windowSize) {
-    formattedTitle="";
-    int wdth=0;
-    titleLength=3;
-    for (int i=0; i<title.length (); i++) {
-      wdth+=textWidth(title.substring(i, i+1));
-      if (wdth > windowSize-20) {
-        wdth=0;
-        formattedTitle+="\n";
-        titleLength++;
-      }
-      formattedTitle+=title.substring(i, i+1);
-    }
-    formattedArtist="";
-    wdth=0; 
-    for (int i=0; i<artist.length (); i++) {
-      wdth+=textWidth(artist.substring(i, i+1));
-      if (wdth > windowSize) {
-        wdth=0;
-        formattedArtist+="\n";
-        titleLength++;
-      }
-      formattedArtist+=artist.substring(i, i+1);
-    }
-  }
   void description(){
     overDescription();
     if (displayDescription){
@@ -121,6 +82,8 @@ class Painting {
       displayDescription = false;
     }
   }
+  
+
 }
 
 

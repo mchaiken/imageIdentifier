@@ -80,7 +80,7 @@
       float ratioA = (a.width*1.0)/(a.height*1.0);
       float ratioB = (b.width*1.0)/(b.height*1.0);
       println(abs(ratioA-ratioB));
-      if (abs(ratioA-ratioB)<0.5) {
+      if (abs(ratioA-ratioB)<0.2) {
         return true;
       }
     }
@@ -103,6 +103,7 @@ void setUp(PImage img1, PImage img2) {
     img2 = adjust(img2, two-one);
   }
 }
+
 PImage edgeDetect(PImage a) {
   a.loadPixels();
   PImage b = createImage(width,height,RGB);
