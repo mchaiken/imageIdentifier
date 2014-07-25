@@ -3,7 +3,9 @@ import java.io.*;
 import java.net.*;
 ArrayList<File> tateFiles=new ArrayList<File>();
 boolean foundMatch=false;
-
+String[] files= {
+  "lisa1.png", "scream1.png", "night3.png", "night1.png", "night4.png", "lunch1.png", "girl1.png"
+};
 
 
 Painting checkWalters(String url, PImage img) {
@@ -66,14 +68,12 @@ Painting checkTate(PImage img) {
     JSONObject art=loadJSONObject(x);
     try {
       PImage painting = loadImage(art.getString("thumbnailUrl"));
-      if (sizeCompare(painting,img)) {
-        int redCount=isSame(painting, img);
-        println("going");
-        if (redCount<pred) {
-           smallest= art;
-          foundMatch=true;
-           break;
-        }
+      int redCount=isSame(painting, img);
+      println("going");
+      if (redCount<pred) {
+         smallest= art;
+        foundMatch=true;
+         break;
       }
     }
     catch(Exception e) {

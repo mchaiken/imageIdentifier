@@ -70,26 +70,9 @@
   */
  int isSame(PImage a, PImage b) {
   setUp(a,b);
- edgeWeight(a,b);
+ differenceDetect(a,b);
  return reds;
  }
- 
- boolean sizeCompare(PImage a, PImage b) {
-  if ((a.height>a.width && b.height>b.width)
-    ||(a.width>a.height && b.width>b.height)) {
-      float ratioA = (a.width*1.0)/(a.height*1.0);
-      float ratioB = (b.width*1.0)/(b.height*1.0);
-      println(abs(ratioA-ratioB));
-<<<<<<< HEAD
-      if (abs(ratioA-ratioB)<0.5) {
-=======
-      if (abs(ratioA-ratioB)<0.2) {
->>>>>>> FETCH_HEAD
-        return true;
-      }
-    }
-    return false;
-}
 
 
 void setUp(PImage img1, PImage img2) {
@@ -107,7 +90,6 @@ void setUp(PImage img1, PImage img2) {
     img2 = adjust(img2, two-one);
   }
 }
-
 PImage edgeDetect(PImage a) {
   a.loadPixels();
   PImage b = createImage(width,height,RGB);
@@ -154,7 +136,7 @@ PImage adjust(PImage img, int s) {
   return img;
 }
 
-int edgeWeight(PImage a, PImage b) {
+int differenceDetect(PImage a, PImage b) {
   reds=0;
   a.loadPixels();
   b.loadPixels();
