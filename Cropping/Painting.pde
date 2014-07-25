@@ -59,7 +59,7 @@ class Painting {
   void info(int infoX, int infoY) {
     textFont(font2);
     fill(225,85);
-    rect(5, 5, infoX, infoY);
+    rect(5, 5, infoX+5, infoY+5);
     fill(0);
     text("Title: " + title + "\nArtist: " + artist, 10, 10, infoX,infoY);
     /*
@@ -99,25 +99,25 @@ class Painting {
     overDescription();
     if (displayDescription){
       fill(225);
-      rect(0,480-(descriptionLength*40),640,40*descriptionLength);
+      rect(0,height-(descriptionLength*40),width,40*descriptionLength);
       fill(0);
-      text(description,10,480-20*descriptionLength);
+      text(description,10,height-20*descriptionLength);
     }
     else{
       fill(255);
-      rect(545,445,82,30);
+      rect(width-95,height-35,82,30);
       fill(0);
-      text("More Info",545+3,445+23);
+      text("More Info",width-95+3,height-35+23);
     }
   }
   
   void overDescription(){
     if (!displayDescription &&
-        (mouseX>=545) && (mouseX<=627) &&
-        (mouseY>=445) && (mouseY<=475)) {
-          displayDescription = true;
-        }
-    if (displayDescription && !(mouseY>=445)) {
+    (mouseX>=width-95) && (mouseX<=width-13) &&
+    (mouseY>=height-40) && (mouseY<=height-5)) {
+      displayDescription = true;
+    }
+    if (displayDescription && mouseY<height-40) {
       displayDescription = false;
     }
   }

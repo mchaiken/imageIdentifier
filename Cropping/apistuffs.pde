@@ -3,9 +3,7 @@ import java.io.*;
 import java.net.*;
 ArrayList<File> tateFiles=new ArrayList<File>();
 boolean foundMatch=false;
-String[] files= {
-  "lisa1.png", "scream1.png", "night3.png", "night1.png", "night4.png", "lunch1.png", "girl1.png"
-};
+
 
 
 Painting checkWalters(String url, PImage img) {
